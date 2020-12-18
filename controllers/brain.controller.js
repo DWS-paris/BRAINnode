@@ -5,8 +5,8 @@ Define Neural Network
     const NeuralNetwork = new Brain.NeuralNetwork({
         activation: 'sigmoid',
         hiddenLayers: [2],
-        iterations: 3000,
-        learningRate: 0.5
+        iterations: 10000,
+        learningRate: 0.2
     })
 //
 

@@ -6,6 +6,7 @@ Imports
 
     // Inner
     const Controllers = require('../controllers/index');
+    const { trainBrain } = require('../controllers/brain.controller')
 //
 
 /*
@@ -36,7 +37,8 @@ Routes definition
                 // Use the controller to create new object
                 Controllers.iris.convertCsv()
                 .then( data => {
-                    return res.render('d3-brain')
+                    // Train Neural Network
+                    trainBrain(data).then( response => res.render('d3-brain'))
                 })
                 .catch( err => {
                     return res.redirect('/')
