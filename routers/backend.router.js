@@ -30,6 +30,20 @@ Routes definition
                 .then( data => res.redirect('/'))
                 .catch( err => res.redirect('/'))
             })
+
+            // Define D3 convert route
+            this.router.post('/d3/convert', (req, res) => {
+                // Use the controller to create new object
+                Controllers.iris.convertCsv()
+                .then( data => {
+                    console.log(data)
+                    return res.redirect('/')
+                })
+                .catch( err => {
+                    console.log(err)
+                    return res.redirect('/')
+                })
+            })
         }
 
         init(){

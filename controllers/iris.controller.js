@@ -1,6 +1,8 @@
 /* 
 Imports
 */
+    const d3 = require('d3-node');
+    global.fetch = require('node-fetch');
     const Models = require('../models/index')
 //
 
@@ -35,12 +37,27 @@ Functions
             .catch( err => reject(err) )
         })
     }
+
+    // D3: convert CSV
+    const convertCsv = () => {
+        return new Promise( (resolve, reject) => {
+            // Load a CVS file and convert it
+            d3.convertCsv('https://raw.githubusercontent.com/DWS-paris/BRAINnode/master/data/itris-train.csv')
+            .then( data => {
+                return resolve(data)
+            })
+            .catch( err => {
+                return reject(err)
+            });
+        })
+    }
 //
 
 /* 
 Export
 */
     module.exports = {
-        createObject
+        createObject,
+        convertCsv
     }
 //
