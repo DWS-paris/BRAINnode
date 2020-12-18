@@ -44,6 +44,11 @@ Routes definition
                     return res.redirect('/')
                 })
             })
+
+            // Define D3 convert route
+            this.router.get('/brain', (req, res) => {
+                return res.render('brain');
+            })
         }
 
         init(){
