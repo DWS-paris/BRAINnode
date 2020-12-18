@@ -21,6 +21,7 @@ class ServerClass{
     constructor(){
         this.server = express();
         this.port = process.env.PORT;
+        this.MongoDB = new MONGOclass;
     }
 
     init(){
@@ -45,7 +46,7 @@ class ServerClass{
 
         //=> Body-parser
         this.server.use(bodyParser.json({limit: '10mb'}));
-        thus.server.use(bodyParser.urlencoded({ extended: true }));
+        this.server.use(bodyParser.urlencoded({ extended: true }));
 
         //=> Use CookieParser to setup serverside cookies
         this.server.use(cookieParser(process.env.COOKIE_SECRET));
@@ -62,7 +63,7 @@ class ServerClass{
 
     launch(){
         // Start MongoDB connection
-        this.MONGO.connectDb()
+        this.MongoDB.connectDb()
         .then( db => {
             // Start server
             this.server.listen(this.port, () => {
