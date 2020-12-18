@@ -48,14 +48,8 @@ Routes definition
 
                 // Use the controller to create new object
                 Controllers.iris.createObject(req)
-                .then( data => {
-                    console.log(data)
-                    return res.redirect('/')
-                })
-                .catch( err => {
-                    console.log(err)
-                    return res.redirect('/')
-                })
+                .then( data => res.redirect('/'))
+                .catch( err => res.redirect('/'))
             })
         }
 
