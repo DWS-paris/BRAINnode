@@ -12,6 +12,7 @@ Imports
 
     // Services
     const MONGOclass = require('./services/mongo.class');
+const BackendRouter = require('./routers/backend.router');
 //
 
 /* 
@@ -56,6 +57,10 @@ class ServerClass{
     }
 
     config(){
+        // Set routers
+        const BackendRouterClass = require('./routers/backend.router')
+        const backendRouter = new BackendRouterClass();
+        this.server.use('/', backendRouter.init())
 
         // Launch server
         this.launch();
