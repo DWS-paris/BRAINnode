@@ -1,7 +1,7 @@
 /* 
 Imports
 */
-    const d3 = require('d3-node');
+    const d3 = require('d3');
     global.fetch = require('node-fetch');
     const Models = require('../models/index')
 //
@@ -42,7 +42,7 @@ Functions
     const convertCsv = () => {
         return new Promise( (resolve, reject) => {
             // Load a CVS file and convert it
-            d3.convertCsv('https://raw.githubusercontent.com/DWS-paris/BRAINnode/master/data/itris-train.csv')
+            d3.csv('https://raw.githubusercontent.com/DWS-paris/BRAINnode/master/data/itris-train.csv')
             .then( data => {
                 return resolve(data)
             })
