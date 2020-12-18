@@ -43,7 +43,7 @@ Functions
         return new Promise( (resolve, reject) => {
             // Load a CVS file and convert it
             d3.csv('https://raw.githubusercontent.com/DWS-paris/BRAINnode/master/data/itris-train.csv')
-            .then( data => {
+            .then( async data => {
                 // Convert data from JSON
                 let convertedData = []
                 for( let item of data ){
@@ -54,7 +54,7 @@ Functions
                     else if( item.Species === 'Iris-versicolor' ){ species = [0,1,0] }
                     else if( item.Species === 'Iris-virginica' ){ species = [0,0,1] }
 
-                    convertedData.push({
+                    await Models.iris.create({
                         SepalLengthCm: +item.SepalLengthCm,
                         SepalWidthCm: +item.SepalWidthCm,
                         PetalLengthCm: +item.PetalLengthCm,
@@ -63,7 +63,12 @@ Functions
                         SpeciesName: item.Species
                     })
                 }
-                return resolve(convertedData)
+
+                // Get all iris data
+                Models.iris.find( ( err, data ) => {
+                    if(err){ return reject(err) }
+                    else{ return resolve(data) }
+                })
             })
             .catch( err => {
                 return reject(err)
