@@ -36,11 +36,9 @@ Routes definition
                 // Use the controller to create new object
                 Controllers.iris.convertCsv()
                 .then( data => {
-                    console.log(data)
-                    return res.redirect('/')
+                    return res.render('d3-brain')
                 })
                 .catch( err => {
-                    console.log(err)
                     return res.redirect('/')
                 })
             })
