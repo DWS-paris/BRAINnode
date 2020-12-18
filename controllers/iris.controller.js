@@ -47,6 +47,13 @@ Functions
                 // Convert data from JSON
                 let convertedData = []
                 for( let item of data ){
+                    // Convert species for training
+                    let species = null;
+
+                    if( item.Species === 'Iris-setosa' ){ species = [1,0,0] }
+                    else if( item.Species === 'Iris-versicolor' ){ species = [0,1,0] }
+                    else if( item.Species === 'Iris-virginica' ){ species = [0,0,1] }
+
                     convertedData.push({
                         SepalLengthCm: +item.SepalLengthCm,
                         SepalWidthCm: +item.SepalWidthCm,
