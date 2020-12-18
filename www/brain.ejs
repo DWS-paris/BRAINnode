@@ -4,6 +4,10 @@
 <main>
     <h2>Test brain JS</h2>
     <%- include('components/form-iris') -%>
+
+    <% if( result !== null ) { %>
+        <p><%= result %> </p>
+    <% } %>
 </main>
 
 <!-- Importer le footer en EJS -->
