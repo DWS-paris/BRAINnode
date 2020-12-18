@@ -13,7 +13,8 @@ Definition
         SepalWidthCm: Number,
         PetalLengthCm: Number,
         PetalWidthCm: Number,
-        Species: Array[Number]
+        Species: Array,
+        SpeciesName: String
     })
 //
 
