@@ -23,6 +23,15 @@ Create function to train Neural Network
                     output: item.Species
                 })
             }
+
+            // Train Neural Network
+            NeuralNetwork.train( trainCollection, {
+                log: true,
+                logPeriod: 100,
+                errorThresh: 0.002
+            });
+
+            return true;
         })
     }
 //
