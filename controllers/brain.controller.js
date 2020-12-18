@@ -1,3 +1,6 @@
+// Imports
+const fs = require('fs');
+
 /* 
 Define Neural Network
 */
@@ -5,8 +8,8 @@ Define Neural Network
     const NeuralNetwork = new Brain.NeuralNetwork({
         activation: 'sigmoid',
         hiddenLayers: [2],
-        iterations: 10000,
-        learningRate: 0.2
+        iterations: 3000,
+        learningRate: 0.5
     })
 //
 
@@ -31,7 +34,14 @@ Create function to train Neural Network
                 errorThresh: 0.002
             });
 
-            return true;
+            // Save trained network
+            fs.writeFileSync(
+                'trained/trained-model-node.js',
+                `export default ${ NeuralNetwork.toFunction().toString() };`
+            )
+
+            // Return to controller
+            return resolve(true);
         })
     }
 //
