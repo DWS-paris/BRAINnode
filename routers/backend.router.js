@@ -19,6 +19,14 @@ Routes definition
                 // Return indes.ejs file
                 return res.render('index');
             })
+
+            // Define iris POST route
+            this.router.post('/iris', (req, res) => {
+
+                console.log( req.body )
+
+                return res.render('index')
+            })
         }
 
         init(){
