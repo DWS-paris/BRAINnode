@@ -32,7 +32,7 @@ Routes definition
             })
 
             // Define D3 convert route
-            this.router.post('/d3/convert', (req, res) => {
+            this.router.get('/d3/convert', (req, res) => {
                 // Use the controller to create new object
                 Controllers.iris.convertCsv()
                 .then( data => {
