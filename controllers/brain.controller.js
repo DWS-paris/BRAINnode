@@ -56,7 +56,7 @@ Create a function to test network
         // Define input data
         const input = { input: [ +req.body.SepalLengthCm, +req.body.SepalWidthCm, +req.body.PetalLengthCm, +req.body.PetalWidthCm ] };
 
-        // Return prevision to controller
+        // Return prevision to router
         return trainedNetwork(input);
     }
 //

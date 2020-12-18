@@ -6,7 +6,7 @@ Imports
 
     // Inner
     const Controllers = require('../controllers/index');
-    const { trainBrain } = require('../controllers/brain.controller')
+    const { trainBrain, testBrain } = require('../controllers/brain.controller')
 //
 
 /*
@@ -26,10 +26,8 @@ Routes definition
 
             // Define iris POST route
             this.router.post('/iris', (req, res) => {
-                // Use the controller to create new object
-                Controllers.iris.createObject(req)
-                .then( data => res.redirect('/'))
-                .catch( err => res.redirect('/'))
+                // Test trained Network
+                return res.render('brain', { result: testBrain(req) })
             })
 
             // Define D3 convert route
