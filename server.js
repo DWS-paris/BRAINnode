@@ -57,10 +57,15 @@ class ServerClass{
     }
 
     config(){
-        // Set routers
+        // Set API router
+        const ApiRouterClass = require('./routers/api.router');
+        const apiRouter = new ApiRouterClass();
+        this.server.use('/api', apiRouter.init());
+
+        // Set backend router
         const BackendRouterClass = require('./routers/backend.router')
         const backendRouter = new BackendRouterClass();
-        this.server.use('/', backendRouter.init())
+        this.server.use('/', backendRouter.init());
 
         // Launch server
         this.launch();
