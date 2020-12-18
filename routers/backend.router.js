@@ -33,6 +33,7 @@ Routes definition
                 else if( req.body.Species === 'Iris-virginica' ){ species = [0,0,1] }
                 
                 // Define object to create
+                // +var => parseInt(var) || parseFloat(var)
                 const newObject = {
                     SepalLengthCm: +req.body.SepalLengthCm,
                     SepalWidthCm: +req.body.SepalWidthCm,
@@ -42,7 +43,8 @@ Routes definition
                     SpeciesName: req.body.Species
                 }
                 
-                req.body = newObject
+                // Change request body 
+                req.body = newObject;
 
                 // Use the controller to create new object
                 Controllers.iris.createObject(req)
