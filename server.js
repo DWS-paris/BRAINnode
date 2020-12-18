@@ -7,27 +7,72 @@ Imports
     const express = require('express'); //=> https://www.npmjs.com/package/express
     const bodyParser = require('body-parser'); //=> https://www.npmjs.com/package/body-parser
     const cookieParser = require('cookie-parser'); //=> https://www.npmjs.com/package/cookie-parser
-    const ejs = require('ejs'); //=> https://www.npmjs.com/package/ejs
     const passport = require('passport'); //=> https://www.npmjs.com/package/passport
     const path = require('path'); //=> https://www.npmjs.com/package/path
+
+    // Services
+    const MONGOclass = require('./services/mongo.class');
 //
 
 /* 
 Server class
 */
 class ServerClass{
-    constructor(){}
+    constructor(){
+        this.server = express();
+        this.port = process.env.PORT;
+    }
 
     init(){
+        // Set CORS middleware
+        this.server.use( (req, res, next) => {
+            // Allow actions for specific origins
+            res.header('Access-Control-Allow-Origin', ['*']);
+            res.header('Access-Control-Allow-Credentials', 'true');
+            res.header('Access-Control-Allow-Methods', ['GET', 'PUT', 'POST', 'DELETE', 'POST']);
+            res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
+            // Enable access to specific origins
+            next();
+        });
+
+        // Set server view engine
+        this.server.set( 'view engine', 'ejs' );
+
+        // Static path configuration
+        this.server.set( 'views', __dirname + '/www' );
+        this.server.use( express.static(path.join(__dirname, 'www')) );
+
+        //=> Body-parser
+        this.server.use(bodyParser.json({limit: '10mb'}));
+        thus.server.use(bodyParser.urlencoded({ extended: true }));
+
+        //=> Use CookieParser to setup serverside cookies
+        this.server.use(cookieParser(process.env.COOKIE_SECRET));
+
+        // Start server configuration
+        this.config();
     }
 
     config(){
 
+        // Launch server
+        this.launch();
     }
 
     launch(){
-
+        // Start MongoDB connection
+        this.MONGO.connectDb()
+        .then( db => {
+            // Start server
+            this.server.listen(this.port, () => {
+                console.log({
+                    node: `http://localhost:${this.port}`,
+                    mongo: db.url,
+                });
+            });
+        })
+        .catch( dbErr => console.log('MongoDB Error', dbErr));
     }
 }
 //
