@@ -44,7 +44,19 @@ Functions
             // Load a CVS file and convert it
             d3.csv('https://raw.githubusercontent.com/DWS-paris/BRAINnode/master/data/itris-train.csv')
             .then( data => {
-                return resolve(data)
+                // Convert data from JSON
+                let convertedData = []
+                for( let item of data ){
+                    convertedData.push({
+                        SepalLengthCm: +item.SepalLengthCm,
+                        SepalWidthCm: +item.SepalWidthCm,
+                        PetalLengthCm: +item.PetalLengthCm,
+                        PetalWidthCm: +item.PetalWidthCm,
+                        Species: species,
+                        SpeciesName: item.Species
+                    })
+                }
+                return resolve(convertedData)
             })
             .catch( err => {
                 return reject(err)
