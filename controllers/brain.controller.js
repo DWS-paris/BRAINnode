@@ -54,7 +54,7 @@ Create a function to test network
         const trainedNetwork = require('../trained/trained-model-node');
 
         // Define input data
-        const input = { input: [ +req.body.SepalLengthCm, +req.body.SepalWidthCm, +req.body.PetalLengthCm, +req.body.PetalWidthCm ] };
+        const input = [ +req.body.SepalLengthCm, +req.body.SepalWidthCm, +req.body.PetalLengthCm, +req.body.PetalWidthCm ];
 
         // Return prevision to router
         return trainedNetwork(input);
