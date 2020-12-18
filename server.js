@@ -12,7 +12,6 @@ Imports
 
     // Services
     const MONGOclass = require('./services/mongo.class');
-const BackendRouter = require('./routers/backend.router');
 //
 
 /* 
