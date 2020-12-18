@@ -47,9 +47,25 @@ Create function to train Neural Network
 //
 
 /* 
+Create a function to test network
+*/
+    const testBrain = (req) => {
+        // Import trained network
+        const trainedNetwork = require('../trained/trained-model-node');
+
+        // Define input data
+        const input = { input: [ +req.body.SepalLengthCm, +req.body.SepalWidthCm, +req.body.PetalLengthCm, +req.body.PetalWidthCm ] };
+
+        // Return prevision to controller
+        return trainedNetwork(input);
+    }
+//
+
+/* 
 Export
 */
     module.exports = {
-        trainBrain
+        trainBrain,
+        testBrain
     }
 //
