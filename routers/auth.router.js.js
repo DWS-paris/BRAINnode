@@ -7,7 +7,8 @@ Imports
 
     // Inner
     const { checkFields } = require('../services/request.service');
-    const Mandatory = require('../services/mandatory.service')
+    const Mandatory = require('../services/mandatory.service');
+    const { sendBodyError,sendFieldsError,sendApiSuccessResponse,sendApiErrorResponse } = require('../services/response.service')
 
     // Import models
     const Models = require('../models/index');
@@ -25,24 +26,24 @@ Routes definition
             // CRUD: Create new entry
             this.router.post('/register', (req, res) => {
                 return new Promise( async (resolve, reject) => {
-                    // Check user request
+                    // Check body data
                     if( typeof req.body === 'undefined' || req.body === null || Object.keys(req.body).length === 0 ){ 
-                        return reject( res.json( { msg: 'No data' } ) ) 
+                        return sendBodyError('/auth/register', 'POST', res, 'No data provided in the reqest body')
                     }
                     else{
                         // Check body data
                         const { ok, extra, miss } = checkFields( Mandatory.user, req.body );
 
                         // Error: bad fields provided
-                        if( !ok ){ return reject( res.json({ msg: 'bad fields provided', extra, miss }) ) }
+                        if( !ok ){ return sendFieldsError('/auth/register', 'POST', res, 'Bad fields provided', miss, extra) }
                         else{
                             // Encrypt yser password
                             req.body.password = await bcrypt.hash( req.body.password, 10 );
 
                             // Register new user
                             Models.user.create( req.body )
-                            .then( data => resolve( res.json(data) ) )
-                            .catch( err => reject( res.json(err) ) );
+                            .then( data => sendApiSuccessResponse('/auth/register', 'POST', res, 'Request succeed', data) )
+                            .catch( err => sendApiErrorResponse('/auth/register', 'POST', res, 'Request failed', err) );
                         }
                     }
                 })

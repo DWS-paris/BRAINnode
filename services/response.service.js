@@ -45,7 +45,7 @@ Service definition
             endpoint: endpoint,
             method: method,
             message: errorMessage,
-            error,
+            err: error,
             data: null,
             status: status
         }
