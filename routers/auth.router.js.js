@@ -3,6 +3,11 @@ Imports
 */
     // Node
     const express = require('express');
+    const bcrypt = require('bcryptjs');
+
+    // Inner
+    const { checkFields } = require('../services/request.service');
+    const Mandatory = require('../services/mandatory.service')
 
     // Import models
     const Models = require('../models/index');
@@ -18,8 +23,29 @@ Routes definition
 
         routes(){
             // CRUD: Create new entry
-            this.router.post('/', (req, res) => {
-                
+            this.router.post('/register', (req, res) => {
+                return new Promise( async (resolve, reject) => {
+                    // Check user request TODO: check verification
+                    if( typeof req.body === 'undefined' || req.body === null ){ 
+                        return reject( res.json( { msg: 'No data' } ) ) 
+                    }
+                    else{
+                        // Check body data
+                        const { ok, extra, miss } = checkFields( Mandatory.user, req.body );
+
+                        // Error: bad fields provided
+                        if( !ok ){ return reject( res.json({ msg: 'bad fields provided', extra, miss }) ) }
+                        else{
+                            // Encrypt yser password
+                            req.body.password = await bcrypt.hash( req.body.password, 10 );
+
+                            // Register new user
+                            Models.user.create( req.body )
+                            .then( data => resolve( res.json(data) ) )
+                            .catch( err => reject( res.json(err) ) );
+                        }
+                    }
+                })
             })
 
             // CRUD: Read all entries
@@ -46,16 +72,22 @@ Routes definition
 
             // CRUD: Update one entry
             this.router.put('/:_id', (req, res) => {
-                
+                return new Promise( (resolve, reject) => {
+                    Models.user.updateOne( { _id: req.params._id }, req.body, (err, data) => {
+                        err
+                        ? reject( res.json( err ) )
+                        : resolve( res.json(data) );
+                    })
+                })
             })
 
             // CRUD: Delete one entry
             this.router.delete('/:_id', (req, res) => {
                 return new Promise( (resolve, reject) => {
-                    Models.user.findByIdAndDelete( req.params._id, (err, res) => {
+                    Models.user.findByIdAndDelete( req.params._id, (err, data) => {
                         err
                         ? reject( res.json( err ) )
-                        : resolve( res.json(res) );
+                        : resolve( res.json(data) );
                     })
                 })
             })

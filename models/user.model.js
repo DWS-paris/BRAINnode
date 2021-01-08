@@ -21,7 +21,8 @@ Definition
         email: { unique: true, type: String },
 
         // Définir une valeur par défaut
-        creationDate: { type: Date, default: new Date() }
+        creationDate: { type: Date, default: new Date() },
+        banished: { type: Boolean, default: false }
     })
 //
 
