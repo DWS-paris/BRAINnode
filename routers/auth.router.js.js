@@ -24,29 +24,27 @@ Routes definition
 
         routes(){
             // CRUD: Create new entry
-            this.router.post('/register', (req, res) => {
-                return new Promise( async (resolve, reject) => {
+            this.router.post('/register', async (req, res) => {
+                // Check body data
+                if( typeof req.body === 'undefined' || req.body === null || Object.keys(req.body).length === 0 ){ 
+                    return sendBodyError('/auth/register', 'POST', res, 'No data provided in the reqest body')
+                }
+                else{
                     // Check body data
-                    if( typeof req.body === 'undefined' || req.body === null || Object.keys(req.body).length === 0 ){ 
-                        return sendBodyError('/auth/register', 'POST', res, 'No data provided in the reqest body')
-                    }
+                    const { ok, extra, miss } = checkFields( Mandatory.user, req.body );
+
+                    // Error: bad fields provided
+                    if( !ok ){ return sendFieldsError('/auth/register', 'POST', res, 'Bad fields provided', miss, extra) }
                     else{
-                        // Check body data
-                        const { ok, extra, miss } = checkFields( Mandatory.user, req.body );
+                        // Encrypt yser password
+                        req.body.password = await bcrypt.hash( req.body.password, 10 );
 
-                        // Error: bad fields provided
-                        if( !ok ){ return sendFieldsError('/auth/register', 'POST', res, 'Bad fields provided', miss, extra) }
-                        else{
-                            // Encrypt yser password
-                            req.body.password = await bcrypt.hash( req.body.password, 10 );
-
-                            // Register new user
-                            Models.user.create( req.body )
-                            .then( data => sendApiSuccessResponse('/auth/register', 'POST', res, 'Request succeed', data) )
-                            .catch( err => sendApiErrorResponse('/auth/register', 'POST', res, 'Request failed', err) );
-                        }
+                        // Register new user
+                        Models.user.create( req.body )
+                        .then( data => sendApiSuccessResponse('/auth/register', 'POST', res, 'Request succeed', data) )
+                        .catch( err => sendApiErrorResponse('/auth/register', 'POST', res, 'Request failed', err) );
                     }
-                })
+                }
             })
 
             // CRUD: Read all entries
