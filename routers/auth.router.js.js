@@ -39,6 +39,8 @@ Routes definition
                         // Encrypt yser password
                         req.body.password = await bcrypt.hash( req.body.password, 10 );
 
+                        // TODO: encrypt RGPD data
+
                         // Register new user
                         Models.user.create( req.body )
                         .then( data => sendApiSuccessResponse('/auth/register', 'POST', res, 'Request succeed', data) )
