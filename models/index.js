@@ -2,7 +2,8 @@
 Definition
 */
     const Models = {
-        iris: require('./iris.model')
+        iris: require('./iris.model'),
+        user: require('./user.model')
     }
 //
 
