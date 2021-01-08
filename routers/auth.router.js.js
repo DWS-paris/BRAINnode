@@ -25,8 +25,8 @@ Routes definition
             // CRUD: Create new entry
             this.router.post('/register', (req, res) => {
                 return new Promise( async (resolve, reject) => {
-                    // Check user request TODO: check verification
-                    if( typeof req.body === 'undefined' || req.body === null ){ 
+                    // Check user request
+                    if( typeof req.body === 'undefined' || req.body === null || Object.keys(req.body).length === 0 ){ 
                         return reject( res.json( { msg: 'No data' } ) ) 
                     }
                     else{
