@@ -9,7 +9,10 @@ CRUD methods
 */
     const createOne = req => {
         return new Promise( (resolve, reject) => {
-
+            // Use Models to create new post
+            Models.post.create( req.body )
+            .then( data => resolve(data) )
+            .catch( err => reject(err) )
         })
     }
 
