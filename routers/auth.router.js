@@ -12,7 +12,6 @@ Imports
 
     // Import models
     const Models = require('../models/index');
-const { user } = require('../models/index');
 //
 
 /*

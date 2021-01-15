@@ -2,7 +2,7 @@
 Definition
 */
     const Controllers = {
-        iris: require('./iris.controller')
+        post: require('./post.controller')
     }
 //
 
