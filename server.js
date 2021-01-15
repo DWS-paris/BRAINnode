@@ -9,7 +9,6 @@ Imports
     const cookieParser = require('cookie-parser'); //=> https://www.npmjs.com/package/cookie-parser
     const passport = require('passport'); //=> https://www.npmjs.com/package/passport
     const path = require('path'); //=> https://www.npmjs.com/package/path
-    const passport = require('passport'); //=> https://www.npmjs.com/package/passport
 
     // Services
     const MONGOclass = require('./services/mongo.class');

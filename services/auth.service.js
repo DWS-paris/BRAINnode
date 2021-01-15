@@ -20,17 +20,17 @@ Methods
         // JWT options for passport
         const opts = {
             jwtFromRequest: cookieExtractor,
-            secretOrKey: process.env.COOKIE_SECRET
+            secretOrKey: process.env.JWT_SECRET
         }
 
         // JWT strategy
-        passport.use( new JwtStrategy( opts, ( jwtPayload, done ) => {
-            UserModel.findOne( { _id: jwtPayload._id }, (err, user) => {
-                if( err ){ return done(err, false) }
-                if( user ){ return done( null, user ) }
-                else{ return done( null, false ) }
-            })
-        }))
+        passport.use(new JwtStrategy(opts, (jwtPayload, done) => {
+            UserModel.findOne({ _id: jwtPayload._id }, (err, user) => {
+                if (err) { return done(err, false)}
+                if (user) { return done(null, user) }
+                else { return done(null, false) }
+            });
+        }));
     }
 //
 
