@@ -23,7 +23,7 @@ Routes definition
         }
 
         routes(){
-            // CRUD: Create new entry
+            // AUTH: Register
             this.router.post('/register', async (req, res) => {
                 // Check body data
                 if( typeof req.body === 'undefined' || req.body === null || Object.keys(req.body).length === 0 ){ 
@@ -31,7 +31,7 @@ Routes definition
                 }
                 else{
                     // Check body data
-                    const { ok, extra, miss } = checkFields( Mandatory.user, req.body );
+                    const { ok, extra, miss } = checkFields( Mandatory.register, req.body );
 
                     // Error: bad fields provided
                     if( !ok ){ return sendFieldsError('/auth/register', 'POST', res, 'Bad fields provided', miss, extra) }
@@ -45,6 +45,35 @@ Routes definition
                         Models.user.create( req.body )
                         .then( data => sendApiSuccessResponse('/auth/register', 'POST', res, 'Request succeed', data) )
                         .catch( err => sendApiErrorResponse('/auth/register', 'POST', res, 'Request failed', err) );
+                    }
+                }
+            })
+
+            // AUTH: Login
+            this.router.post('/login', (req, res) => {
+                // Check body data
+                if( typeof req.body === 'undefined' || req.body === null || Object.keys(req.body).length === 0 ){ 
+                    return sendBodyError('/auth/login', 'POST', res, 'No data provided in the reqest body')
+                }
+                else{
+                    // Check body data
+                    const { ok, extra, miss } = checkFields( Mandatory.login, req.body );
+
+                    // Error: bad fields provided
+                    if( !ok ){ return sendFieldsError('/auth/login', 'POST', res, 'Bad fields provided', miss, extra) }
+                    else{
+                        // Find user from email
+                        Models.user.findOne( { email: req.body.email }, (err, data) => {
+                            if( err || data === null ){ return sendApiErrorResponse('/auth/login', 'POST', res, 'Email not found', err) }
+                            else{
+                                // Check user password
+                                const validatedPassword = bcrypt.compareSync( req.body.password, data.password );
+                                if( !validatedPassword ){ return sendApiErrorResponse('/auth/login', 'POST', res, 'Invalid password', null) }
+                                else{
+                                    return res.json(data)
+                                }
+                            }
+                        })
                     }
                 }
             })

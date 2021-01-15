@@ -57,7 +57,7 @@ class ServerClass{
 
     config(){
         // Set AUTH router
-        const AuthRouterClass = require('./routers/auth.router.js');
+        const AuthRouterClass = require('./routers/auth.router');
         const authRouter = new AuthRouterClass();
         this.server.use('/auth', authRouter.init());
 

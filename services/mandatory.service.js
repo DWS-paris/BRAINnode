@@ -2,7 +2,8 @@
 Definition
 */
     const Mandatory = {
-        user: [ 'givenName', 'familyName', 'password', 'email' ]
+        register: [ 'givenName', 'familyName', 'password', 'email' ],
+        login: [ 'password', 'email' ],
     }
 //
 
