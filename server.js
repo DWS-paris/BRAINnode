@@ -9,6 +9,7 @@ Imports
     const cookieParser = require('cookie-parser'); //=> https://www.npmjs.com/package/cookie-parser
     const passport = require('passport'); //=> https://www.npmjs.com/package/passport
     const path = require('path'); //=> https://www.npmjs.com/package/path
+    const passport = require('passport'); //=> https://www.npmjs.com/package/passport
 
     // Services
     const MONGOclass = require('./services/mongo.class');
@@ -56,6 +57,10 @@ class ServerClass{
     }
 
     config(){
+        // Set authentication
+        const { setAutentication } = require('./services/auth.service');
+        setAutentication(passport);
+
         // Set AUTH router
         const AuthRouterClass = require('./routers/auth.router');
         const authRouter = new AuthRouterClass();
@@ -63,7 +68,7 @@ class ServerClass{
 
         // Set API router
         const ApiRouterClass = require('./routers/api.router');
-        const apiRouter = new ApiRouterClass();
+        const apiRouter = new ApiRouterClass( { passport } );
         this.server.use('/api', apiRouter.init());
 
         // Set backend router

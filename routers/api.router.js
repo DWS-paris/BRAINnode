@@ -17,8 +17,9 @@ Imports
 Routes definition
 */
     class ApiRouter {
-        constructor(){
+        constructor( { passport } ){
             this.router = express.Router(); 
+            this.passport = passport
         }
 
         routes(){
@@ -29,7 +30,7 @@ Routes definition
             })
 
             // CRUD: define route to create object
-            this.router.post('/:endpoint', (req, res) => {
+            this.router.post('/:endpoint', this.passport.authenticate('jwt', { session: false }), (req, res) => {
                 // Check body data
                 if( typeof req.body === 'undefined' || req.body === null || Object.keys(req.body).length === 0 ){ 
                     return sendBodyError(`/api/${req.params.endpoint}`, 'POST', res, 'No data provided in the reqest body')
@@ -41,6 +42,9 @@ Routes definition
                     // Error: bad fields provided
                     if( !ok ){ return sendFieldsError(`/api/${req.params.endpoint}`, 'POST', res, 'Bad fields provided', miss, extra) }
                     else{
+                        // Add author _id
+                        req.body.author = req.user._id;
+
                         // Use the controller to create nex object
                         Controllers[req.params.endpoint].createOne(req)
                         .then( apiResponse => sendApiSuccessResponse(`/api/${req.params.endpoint}`, 'POST', res, 'Request succeed', apiResponse) )
