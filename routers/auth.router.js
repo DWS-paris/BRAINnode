@@ -12,6 +12,7 @@ Imports
 
     // Import models
     const Models = require('../models/index');
+const { user } = require('../models/index');
 //
 
 /*
@@ -70,8 +71,15 @@ Routes definition
                                 const validatedPassword = bcrypt.compareSync( req.body.password, data.password );
                                 if( !validatedPassword ){ return sendApiErrorResponse('/auth/login', 'POST', res, 'Invalid password', null) }
                                 else{
-                                    return res.json(data)
-                                }
+                                    // Generate user JWT
+                                    const userJwt = data.generateJwt(data);
+                                    
+                                    // Set response cookie
+                                    res.cookie( process.env.COOKIE_NAME, userJwt, { maxAge: 700000, httpOnly: true } )
+
+                                    // Send user data
+                                    return sendApiSuccessResponse('/auth/login', 'POST', res, 'User logged', data);
+                                };
                             }
                         })
                     }
