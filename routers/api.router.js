@@ -48,9 +48,55 @@ Routes definition
                         // Use the controller to create nex object
                         Controllers[req.params.endpoint].createOne(req)
                         .then( apiResponse => sendApiSuccessResponse(`/api/${req.params.endpoint}`, 'POST', res, 'Request succeed', apiResponse) )
-                        .catch( apiError => sendApiapiErrororResponse(`/api/${req.params.endpoint}`, 'POST', res, 'Request failed', apiError) );
+                        .catch( apiError => sendApiErrorResponse(`/api/${req.params.endpoint}`, 'POST', res, 'Request failed', apiError) );
                     }
                 }
+            })
+
+            // CRUD: define route to read all objects
+            this.router.get('/:endpoint', (req, res) => {
+                // Use the controller to get data
+                Controllers[req.params.endpoint].readAll()
+                .then( apiResponse => sendApiSuccessResponse(`/api/${req.params.endpoint}`, 'GET', res, 'Request succeed', apiResponse) )
+                .catch( apiError => sendApiErrorResponse(`/api/${req.params.endpoint}`, 'GET', res, 'Request failed', apiError) );
+            })
+
+            // CRUD: define route to read one object
+            this.router.get('/:endpoint/:id', (req, res) => {
+                // Use the controller to get data
+                Controllers[req.params.endpoint].readOne(req.params.id)
+                .then( apiResponse => sendApiSuccessResponse(`/api/${req.params.endpoint}/${req.params.id}`, 'GET', res, 'Request succeed', apiResponse) )
+                .catch( apiError => sendApiErrorResponse(`/api/${req.params.endpoint}/${req.params.id}`, 'GET', res, 'Request failed', apiError) );
+            })
+
+            // CRUD: define route to update one object
+            this.router.put('/:endpoint/:id', this.passport.authenticate('jwt', { session: false }), (req, res) => {
+                // Check body data
+                if( typeof req.body === 'undefined' || req.body === null || Object.keys(req.body).length === 0 ){ 
+                    return sendBodyError(`/api/${req.params.endpoint}/${req.params.id}`, 'PUT', res, 'No data provided in the reqest body')
+                }
+                else{
+                    // Check body data
+                    const { ok, extra, miss } = checkFields( Mandatory[req.params.endpoint], req.body );
+
+                    // Error: bad fields provided
+                    if( !ok ){ return sendFieldsError(`/api/${req.params.endpoint}/${req.params.id}`, 'PUT', res, 'Bad fields provided', miss, extra) }
+                    else{
+
+                        // Use the controller to update data
+                        Controllers[req.params.endpoint].updateOne(req)
+                        .then( apiResponse => sendApiSuccessResponse(`/api/${req.params.endpoint}/${req.params.id}`, 'PUT', res, 'Request succeed', apiResponse) )
+                        .catch( apiError => sendApiErrorResponse(`/api/${req.params.endpoint}/${req.params.id}`, 'PUT', res, 'Request failed', apiError) );
+                    }
+                }
+            })
+
+            // CRUD: define route to delete one object
+            this.router.delete('/:endpoint/:id', this.passport.authenticate('jwt', { session: false }), (req, res) => {
+                // Use the controller to delete data
+                Controllers[req.params.endpoint].deleteOne(req)
+                .then( apiResponse => sendApiSuccessResponse(`/api/${req.params.endpoint}/${req.params.id}`, 'DELETE', res, 'Request succeed', apiResponse) )
+                .catch( apiError => sendApiErrorResponse(`/api/${req.params.endpoint}/${req.params.id}`, 'DELETE', res, 'Request failed', apiError) );
             })
         }
 
