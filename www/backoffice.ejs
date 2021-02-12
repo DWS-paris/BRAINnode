@@ -3,9 +3,18 @@
 
 <main>
     <h2>Page protégée</h2>
-    <%- JSON.stringify(data) %>
 
+    <h3>Ajouter un article</h3>
     <%- include('components/form-post') -%>
+
+    <h3>Liste des articles</h3>
+        <% for(let item of data.data) { %>
+            <li>
+                <h4><%- item.headline %></h4>
+                <a href="/post<%- item._id %>">Voir plus</a>
+            </li>
+        <% } %>
+    <ul>
 </main>
 
 <!-- Importer le footer en EJS -->

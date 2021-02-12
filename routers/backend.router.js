@@ -80,7 +80,7 @@ Routes definition
             // TODO: create GET connected route /backoffice
             this.router.get('/backoffice', this.passport.authenticate('jwt', { session: false }), (req, res) => {
                 Controllers.post.readAll()
-                .then( apiResponse => renderSuccessVue('backoffice', '/backoffice', 'GET', res, 'Request succeed', { user: req.user, data: apiResponse }))
+                .then( apiResponse => renderSuccessVue('backoffice', '/backoffice', 'GET', res, 'Request succeed', apiResponse))
                 .catch( apiError => renderErrorVue('backoffice', '/backoffice', 'GET', res, 'Request failed', apiError) )
             })
 
