@@ -52,6 +52,32 @@ Service definition
 
         return response.status(status).json(apiResponse);
     }
+
+    const renderSuccessVue = (vue, endpoint, method, response, successMessage, data, redirect = false, status = 200) => {
+        const apiResponse = {
+            endpoint: endpoint,
+            method: method,
+            message: successMessage,
+            err: null,
+            data: data,
+            status: status
+        }
+
+        return response.status(status).render(vue, { data: apiResponse });
+    }
+
+    const renderErrorVue = (vue, endpoint, method, response, errorMessage, err, redirect = false, status = 200) => {
+        const apiResponse = {
+            endpoint: endpoint,
+            method: method,
+            message: errorMessage,
+            err: err,
+            data: null,
+            status: status
+        }
+
+        return response.status(status).render(vue, { data: apiResponse });
+    }
 // 
 
 
@@ -62,6 +88,8 @@ Export service fonctions
         sendBodyError,
         sendFieldsError,
         sendApiSuccessResponse,
-        sendApiErrorResponse
+        sendApiErrorResponse,
+        renderSuccessVue,
+        renderErrorVue
     };
 //

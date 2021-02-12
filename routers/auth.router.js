@@ -6,7 +6,7 @@ Imports
     const bcrypt = require('bcryptjs');
 
     // Inner
-    const Crontrollers = require('../controllers/index')
+    const Controllers = require('../controllers/index')
     const { checkFields } = require('../services/request.service');
     const Mandatory = require('../services/mandatory.service');
     const { sendBodyError,sendFieldsError,sendApiSuccessResponse,sendApiErrorResponse } = require('../services/response.service');
@@ -36,7 +36,7 @@ Routes definition
                     // Error: bad fields provided
                     if( !ok ){ return sendFieldsError('/auth/register', 'POST', res, 'Bad fields provided', miss, extra) }
                     else{
-                        Crontrollers.auth.register(req)
+                        Controllers.auth.register(req)
                         .then( data => {
                             // TODO: send validation email
                             return sendApiSuccessResponse('/auth/register', 'POST', res, 'Request succeed', data)
@@ -59,7 +59,7 @@ Routes definition
                     // Error: bad fields provided
                     if( !ok ){ return sendFieldsError('/auth/login', 'POST', res, 'Bad fields provided', miss, extra) }
                     else{
-                        Crontrollers.auth.login(res, req)
+                        Controllers.auth.login(res, req)
                         .then( apiResponse => sendApiSuccessResponse('/auth/login', 'POST', res, 'User logged', apiResponse) )
                         .catch( apiError => sendApiErrorResponse('/auth/login', 'POST', res, 'Request error', apiError) );
                     }
