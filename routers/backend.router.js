@@ -11,7 +11,7 @@ Routes definition
     class BackendRouter {
         constructor(){
             this.router = express.Router(); 
-        }
+        } 
 
         routes(){
             // Define index route

@@ -8,7 +8,7 @@ Import
 /* 
 Define class
 */
-    class MONGOClass {
+    class MONGOClass { 
         constructor(){
             // Set MongoDB url
             this.mongoUrl = process.env.MONGO_URL;

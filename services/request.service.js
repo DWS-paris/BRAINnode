@@ -11,7 +11,7 @@ Service definition
     
         /*
         Check fields
-        */
+        */ 
             // Check missing fields
             required.forEach((prop) => {
                 if (!(prop in bodyData)) miss.push(prop);

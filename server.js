@@ -16,7 +16,7 @@ Imports
 
 /* 
 Server class
-*/
+*/ 
 class ServerClass{
     constructor(){
         this.server = express();

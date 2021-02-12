@@ -52,7 +52,7 @@ Routes definition
                     }
                 }
             })
-
+ 
             // CRUD: define route to read all objects
             this.router.get('/:endpoint', (req, res) => {
                 // Use the controller to get data

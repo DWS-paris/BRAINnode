@@ -4,7 +4,7 @@ Imports
     const Models = require('../models/index');
 //
 
-/* 
+/*  
 CRUD methods
 */
     const createOne = req => {

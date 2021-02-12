@@ -10,7 +10,7 @@ Import
 Definition
 */
     const MySchema = new Schema({
-        // Schema.org
+        // Schema.org 
         '@context': { type: String, default: 'http://schema.org' },
         '@type': { type: String, default: 'Person' },
 

@@ -5,7 +5,7 @@ Definition
         register: [ 'givenName', 'familyName', 'password', 'email' ],
         login: [ 'password', 'email' ],
         post: [ 'headline', 'body' ]
-    }
+    } 
 //
 
 /* 

@@ -30,7 +30,7 @@ Service definition
     const sendApiSuccessResponse = (endpoint, method, response, successMessage, data, status = 200) => {
         const apiResponse = {
             endpoint: endpoint,
-            method: method,
+            method: method, 
             message: successMessage,
             err: null,
             data: data,
