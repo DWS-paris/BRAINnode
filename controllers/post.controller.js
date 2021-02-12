@@ -9,7 +9,6 @@ CRUD methods
 */
     const createOne = req => {
         return new Promise( (resolve, reject) => {
-            // Use Models to create new post
             Models.post.create( req.body )
             .then( data => resolve(data) )
             .catch( err => reject(err) )
@@ -36,6 +35,7 @@ CRUD methods
             // Mongoose population to get associated data
             Models.post.findById( id )
             .populate('author', [ '-password' ])
+            // TODO: populate post comment
             .exec( (err, data) => {
                 if( err ){ return reject(err) }
                 else{ return resolve(data) }
@@ -53,14 +53,14 @@ CRUD methods
                 post.body = req.body.body;
                 post.dateModified = new Date();
 
+                // TODO: Check author
+                /* if( post.author !== req.user._id ){ return reject('User not authorized') }
+                else{ } */
+
                 // Save post changes
                 post.save()
                 .then( updatedPost => resolve(updatedPost) )
                 .catch( updateError => reject(updateError) )
-
-                // TODO: Check author
-                /* if( post.author !== req.user._id ){ return reject('User not authorized') }
-                else{ } */
             })
             .catch( err => reject(err) )
         })

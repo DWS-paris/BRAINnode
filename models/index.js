@@ -2,9 +2,9 @@
 Definition
 */
     const Models = {
-        iris: require('./iris.model'),
         user: require('./user.model'),
-        post: require('./post.model')
+        post: require('./post.model'),
+        // TODO: add comment model
     }
 //
 

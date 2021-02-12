@@ -23,6 +23,8 @@ Routes definition
         }
 
         routes(){
+            // TODO: create auth controller
+
             // AUTH: Register
             this.router.post('/register', async (req, res) => {
                 // Check body data
@@ -43,7 +45,10 @@ Routes definition
 
                         // Register new user
                         Models.user.create( req.body )
-                        .then( data => sendApiSuccessResponse('/auth/register', 'POST', res, 'Request succeed', data) )
+                        .then( data => {
+                            // TODO: send validation email
+                            return sendApiSuccessResponse('/auth/register', 'POST', res, 'Request succeed', data)
+                        } )
                         .catch( err => sendApiErrorResponse('/auth/register', 'POST', res, 'Request failed', err) );
                     }
                 }
@@ -85,49 +90,13 @@ Routes definition
                 }
             })
 
-            // CRUD: Read all entries
-            this.router.get('/', (req, res) => {
-                return new Promise( (resolve, reject) => {
-                    Models.user.find( (err, data) => {
-                        err
-                        ? reject( res.json( err ) )
-                        : resolve( res.json(data) );
-                    })
-                })
-            })
+            // TODO: create route to validate user email
 
-            // CRUD: Read one entry
-            this.router.get('/:_id', (req, res) => {
-                return new Promise( (resolve, reject) => {
-                    Models.user.findById( req.params._id, (err, data) => {
-                        err
-                        ? reject( res.json( err ) )
-                        : resolve( res.json(data) );
-                    })
-                })
-            })
+            // TODO: create route to ger all user data
 
-            // CRUD: Update one entry
-            this.router.put('/:_id', (req, res) => {
-                return new Promise( (resolve, reject) => {
-                    Models.user.updateOne( { _id: req.params._id }, req.body, (err, data) => {
-                        err
-                        ? reject( res.json( err ) )
-                        : resolve( res.json(data) );
-                    })
-                })
-            })
+            // TODO: create route to reset password
 
-            // CRUD: Delete one entry
-            this.router.delete('/:_id', (req, res) => {
-                return new Promise( (resolve, reject) => {
-                    Models.user.findByIdAndDelete( req.params._id, (err, data) => {
-                        err
-                        ? reject( res.json( err ) )
-                        : resolve( res.json(data) );
-                    })
-                })
-            })
+            // TODO: create delete account and to get all user data (RGPD)
         }
 
         init(){
