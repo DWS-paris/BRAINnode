@@ -72,7 +72,7 @@ class ServerClass{
 
         // Set backend router
         const BackendRouterClass = require('./routers/backend.router')
-        const backendRouter = new BackendRouterClass();
+        const backendRouter = new BackendRouterClass( { passport } );
         this.server.use('/', backendRouter.init());
 
         // Launch server

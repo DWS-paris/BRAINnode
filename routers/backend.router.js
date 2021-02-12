@@ -15,7 +15,8 @@ Imports
 Routes definition
 */
     class BackendRouter {
-        constructor(){
+        constructor( { passport } ){
+            this.passport = passport
             this.router = express.Router(); 
         } 
 
@@ -73,6 +74,12 @@ Routes definition
                         } );
                     }
                 }
+            })
+
+            // TODO: create GET connected route /backoffice
+            this.router.get('/backoffice', this.passport.authenticate('jwt', { session: false }), (req, res) => {
+                // Check if user is connected
+                return renderSuccessVue('backoffice', '/backoffice', 'GET', res, 'User found', req.user)
             })
 
             // TODO: create POST comment route
