@@ -81,12 +81,35 @@ Routes definition
             this.router.get('/backoffice', this.passport.authenticate('jwt', { session: false }), (req, res) => {
                 Controllers.post.readAll()
                 .then( apiResponse => renderSuccessVue('backoffice', '/backoffice', 'GET', res, 'Request succeed', { user: req.user, data: apiResponse }))
-                .catch( apiError => renderErrorVue('index', '/login', 'POST', res, 'Request failed', apiError) )
+                .catch( apiError => renderErrorVue('backoffice', '/backoffice', 'GET', res, 'Request failed', apiError) )
+            })
+
+            // TODO: create POST post route
+            this.router.post('/:endpoint', this.passport.authenticate('jwt', { session: false }), (req, res) => {
+                // Check body data
+                if( typeof req.body === 'undefined' || req.body === null || Object.keys(req.body).length === 0 ){ 
+                    return res.render('backoffice', { err: 'No data provided in the reqest body', data: null })
+                }
+                else{
+                    // Check body data
+                    const { ok, extra, miss } = checkFields( Mandatory[req.params.endpoint], req.body );
+
+                    // Error: bad fields provided
+                    if( !ok ){ return renderErrorVue('index', `/${req.params.endpoint}`, 'POST', res, 'Bad fields provided', { extra, miss }) }
+                    else{
+                        // Add author _id
+                        req.body.author = req.user._id;
+
+                        // Use the controller to create nex object
+                        Controllers[req.params.endpoint].createOne(req)
+                        .then( apiResponse => renderSuccessVue('backoffice', `/${req.params.endpoint}`, 'POST', res, 'Request succeed', { user: req.user, data: apiResponse }))
+                        .catch( apiError => renderErrorVue('backoffice', `/${req.params.endpoint}`, 'POST', res, 'Request failed', apiError) )
+                    }
+                }
             })
 
             // TODO: create POST comment route
 
-            // TODO: create POST post route
 
             // TODO: create GET unique post route
         }
