@@ -37,7 +37,7 @@ Routes definition
                     const { ok, extra, miss } = checkFields( Mandatory.register, req.body );
 
                     // Error: bad fields provided
-                    if( !ok ){return renderErrorVue('index', '/register', 'POST', res, 'Bad fields provided', { extra, miss })}
+                    if( !ok ){ return renderErrorVue('index', '/register', 'POST', res, 'Bad fields provided', { extra, miss }) }
                     else{
                         Controllers.auth.register(req)
                         .then( data => {
@@ -62,7 +62,7 @@ Routes definition
                     const { ok, extra, miss } = checkFields( Mandatory.login, req.body );
 
                     // Error: bad fields provided
-                    if( !ok ){ return res.render('index', { err: 'Bad fields provided', data: null }) }
+                    if( !ok ){ return renderErrorVue('index', '/Login', 'POST', res, 'Bad fields provided', { extra, miss }) }
                     else{
                         Controllers.auth.login(req, res)
                         .then( data => {
