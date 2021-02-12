@@ -8,7 +8,8 @@ Imports
     const Controllers = require('../controllers/index')
     const { checkFields } = require('../services/request.service');
     const Mandatory = require('../services/mandatory.service');
-    const { renderSuccessVue, renderErrorVue } = require('../services/response.service')
+    const { renderSuccessVue, renderErrorVue } = require('../services/response.service');
+const ApiRouter = require('./api.router');
 //
 
 /*
@@ -78,8 +79,9 @@ Routes definition
 
             // TODO: create GET connected route /backoffice
             this.router.get('/backoffice', this.passport.authenticate('jwt', { session: false }), (req, res) => {
-                // Check if user is connected
-                return renderSuccessVue('backoffice', '/backoffice', 'GET', res, 'User found', req.user)
+                Controllers.post.readAll()
+                .then( apiResponse => renderSuccessVue('backoffice', '/backoffice', 'GET', res, 'Request succeed', { user: req.user, data: apiResponse }))
+                .catch( apiError => renderErrorVue('index', '/login', 'POST', res, 'Request failed', apiError) )
             })
 
             // TODO: create POST comment route
