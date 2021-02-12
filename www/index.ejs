@@ -13,3 +13,16 @@
 
 <!-- Importer le footer en EJS -->
 <%- include('statics/footer') -%>  
+
+<script>
+    fetch('/auth/me')
+    .then( response => {
+        if(response.ok){ return response.json() }
+    })
+    .then( data => {
+        if( data.err === null ){ window.location = '/backoffice' }
+    })
+    .catch( err => {
+        console.log(err)
+    })
+</script>

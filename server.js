@@ -62,7 +62,7 @@ class ServerClass{
 
         // Set AUTH router
         const AuthRouterClass = require('./routers/auth.router');
-        const authRouter = new AuthRouterClass();
+        const authRouter = new AuthRouterClass( { passport } );
         this.server.use('/auth', authRouter.init());
 
         // Set API router

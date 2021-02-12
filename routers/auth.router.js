@@ -16,7 +16,8 @@ Imports
 Routes definition
 */
     class RouterClass {
-        constructor(){
+        constructor( { passport } ){
+            this.passport = passport
             this.router = express.Router(); 
         }
 
@@ -69,6 +70,9 @@ Routes definition
             // TODO: create route to validate user email
 
             // TODO: create route to ger all user data
+            this.router.get('/me', this.passport.authenticate('jwt', { session: false }), (req, res) => {
+                sendApiSuccessResponse('/auth/login', 'POST', res, 'User logged', req.user)
+            })
 
             // TODO: create route to reset password
 

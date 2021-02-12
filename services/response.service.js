@@ -63,7 +63,14 @@ Service definition
             status: status
         }
 
-        return response.status(status).render(vue, { data: apiResponse });
+        if( redirect ){
+            return response.status(status).redirect(vue);
+        }
+        else{
+            return response.status(status).render(vue, { data: apiResponse });
+        }
+
+        
     }
 
     const renderErrorVue = (vue, endpoint, method, response, errorMessage, err, redirect = false, status = 200) => {
