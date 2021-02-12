@@ -19,7 +19,7 @@ Definition
         // Associer le profil utilisateur
         author: {
             type: Schema.Types.ObjectId,
-            ref: 'user' 
+            ref: 'user'  
         },
 
         // Définir une valeur par défaut

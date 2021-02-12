@@ -60,7 +60,7 @@ Routes definition
                 .then( apiResponse => sendApiSuccessResponse(`/api/${req.params.endpoint}`, 'GET', res, 'Request succeed', apiResponse) )
                 .catch( apiError => sendApiErrorResponse(`/api/${req.params.endpoint}`, 'GET', res, 'Request failed', apiError) );
             })
-
+ 
             // CRUD: define route to read one object
             this.router.get('/:endpoint/:id', (req, res) => {
                 // Use the controller to get data

@@ -10,6 +10,6 @@ Definition
 
 /* 
 Export
-*/
+*/ 
     module.exports = Mandatory;
 //

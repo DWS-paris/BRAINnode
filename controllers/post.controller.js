@@ -14,7 +14,7 @@ CRUD methods
             .catch( err => reject(err) )
         })
     }
-
+ 
     const readAll = () => {
         return new Promise( (resolve, reject) => {
             Models.post.find()

@@ -14,9 +14,9 @@ Imports
     const MONGOclass = require('./services/mongo.class');
 //
 
-/* 
+/*
 Server class
-*/ 
+*/
 class ServerClass{
     constructor(){
         this.server = express();

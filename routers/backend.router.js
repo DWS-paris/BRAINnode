@@ -17,7 +17,7 @@ Routes definition
             // Define index route
             this.router.get('/', (req, res) => {
                 // TODO: create send post list data
-                return res.render('index');
+                return res.render('index'); 
             })
 
             // TODO: create POST register route
@@ -25,6 +25,10 @@ Routes definition
             // TODO: create POST login route
 
             // TODO: create POST comment route
+
+            // TODO: create POST post route
+
+            // TODO: create GET unique post route
         }
 
         init(){

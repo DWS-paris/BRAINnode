@@ -33,7 +33,7 @@ Service definition
             method: method, 
             message: successMessage,
             err: null,
-            data: data,
+            data: data, 
             status: status
         }
 

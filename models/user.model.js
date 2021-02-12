@@ -13,7 +13,7 @@ Definition
         // Schema.org 
         '@context': { type: String, default: 'http://schema.org' },
         '@type': { type: String, default: 'Person' },
-
+ 
         givenName: String,
         familyName: String,
         password: String,

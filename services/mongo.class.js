@@ -5,7 +5,7 @@ Import
     const mongoose = require('mongoose'); //=> https://www.npmjs.com/package/mongoose
 //
 
-/* 
+/*  
 Define class
 */
     class MONGOClass { 

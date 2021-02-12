@@ -6,15 +6,13 @@ Imports
     const bcrypt = require('bcryptjs');
 
     // Inner
+    const Crontrollers = require('../controllers/index')
     const { checkFields } = require('../services/request.service');
     const Mandatory = require('../services/mandatory.service');
-    const { sendBodyError,sendFieldsError,sendApiSuccessResponse,sendApiErrorResponse } = require('../services/response.service')
-
-    // Import models
-    const Models = require('../models/index');
+    const { sendBodyError,sendFieldsError,sendApiSuccessResponse,sendApiErrorResponse } = require('../services/response.service');
 //
 
-/* 
+/*  
 Routes definition
 */
     class RouterClass {
@@ -38,13 +36,7 @@ Routes definition
                     // Error: bad fields provided
                     if( !ok ){ return sendFieldsError('/auth/register', 'POST', res, 'Bad fields provided', miss, extra) }
                     else{
-                        // Encrypt yser password
-                        req.body.password = await bcrypt.hash( req.body.password, 10 );
-
-                        // TODO: encrypt RGPD data
-
-                        // Register new user
-                        Models.user.create( req.body )
+                        Crontrollers.auth.register(res)
                         .then( data => {
                             // TODO: send validation email
                             return sendApiSuccessResponse('/auth/register', 'POST', res, 'Request succeed', data)
@@ -67,25 +59,9 @@ Routes definition
                     // Error: bad fields provided
                     if( !ok ){ return sendFieldsError('/auth/login', 'POST', res, 'Bad fields provided', miss, extra) }
                     else{
-                        // Find user from email
-                        Models.user.findOne( { email: req.body.email }, (err, data) => {
-                            if( err || data === null ){ return sendApiErrorResponse('/auth/login', 'POST', res, 'Email not found', err) }
-                            else{
-                                // Check user password
-                                const validatedPassword = bcrypt.compareSync( req.body.password, data.password );
-                                if( !validatedPassword ){ return sendApiErrorResponse('/auth/login', 'POST', res, 'Invalid password', null) }
-                                else{
-                                    // Generate user JWT
-                                    const userJwt = data.generateJwt(data);
-                                    
-                                    // Set response cookie
-                                    res.cookie( process.env.COOKIE_NAME, userJwt, { maxAge: 700000, httpOnly: true } )
-
-                                    // Send user data
-                                    return sendApiSuccessResponse('/auth/login', 'POST', res, 'User logged', data);
-                                };
-                            }
-                        })
+                        Crontrollers.auth.login(res, req)
+                        .then( apiResponse => sendApiSuccessResponse('/auth/login', 'POST', res, 'User logged', apiResponse) )
+                        .catch( apiError => sendApiErrorResponse('/auth/login', 'POST', res, 'Request error', apiError) );
                     }
                 }
             })
