@@ -36,7 +36,7 @@ Routes definition
                     // Error: bad fields provided
                     if( !ok ){ return sendFieldsError('/auth/register', 'POST', res, 'Bad fields provided', miss, extra) }
                     else{
-                        Crontrollers.auth.register(res)
+                        Crontrollers.auth.register(req)
                         .then( data => {
                             // TODO: send validation email
                             return sendApiSuccessResponse('/auth/register', 'POST', res, 'Request succeed', data)
