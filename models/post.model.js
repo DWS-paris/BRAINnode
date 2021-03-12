@@ -22,6 +22,11 @@ Definition
             ref: 'user'  
         },
 
+        comments: [{
+            type: Schema.Types.ObjectId,
+            ref: 'comment'  
+        }],
+
         // Définir une valeur par défaut
         creationDate: { type: Date, default: new Date() },
         dateModified: { type: Date, default: new Date() },

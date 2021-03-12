@@ -35,6 +35,7 @@ CRUD methods
             // Mongoose population to get associated data
             Models.post.findById( id )
             .populate('author', [ '-password' ])
+            .populate('comment')
             // TODO: populate post comment
             .exec( (err, data) => {
                 if( err ){ return reject(err) }

@@ -22,33 +22,15 @@ Routes definition
 
         routes(){
             // Define index route
-            this.router.get('/', (req, res) => {
-                // TODO: create send post list data
-                return res.render('index', { err: null, data: null }); 
+            this.router.get('/', this.passport.authenticate('jwt', { session: false, failureRedirect: '/login' }), (req, res) => {
+                Controllers.post.readAll()
+                .then( apiResponse => renderSuccessVue('index', '/', 'GET', res, 'Request succeed', apiResponse))
+                .catch( apiError => renderErrorVue('index', '/', 'GET', res, 'Request failed', apiError) )
             })
 
-            // TODO: create POST register route
-            this.router.post('/register', (req, res) => {
-                // Check body data
-                if( typeof req.body === 'undefined' || req.body === null || Object.keys(req.body).length === 0 ){ 
-                    return renderErrorVue('index', '/register', 'POST', res, 'No data provided in the reqest body', null)
-                }
-                else{
-                    // Check body data
-                    const { ok, extra, miss } = checkFields( Mandatory.register, req.body );
-
-                    // Error: bad fields provided
-                    if( !ok ){ return renderErrorVue('index', '/register', 'POST', res, 'Bad fields provided', { extra, miss }, true) }
-                    else{
-                        Controllers.auth.register(req)
-                        .then( data => {
-                            return renderSuccessVue('index', '/register', 'POST', res, 'User register', data, true)
-                        } )
-                        .catch( err => {
-                            return renderErrorVue('index', '/register', 'POST', res, 'User not register', err, true);
-                        } );
-                    }
-                }
+            // Define index route
+            this.router.get('/login', (req, res) => {
+                renderSuccessVue('login', '/login', 'GET', res, 'Request succeed', null)
             })
 
             // TODO: create POST login route
@@ -73,13 +55,6 @@ Routes definition
                         } );
                     }
                 }
-            })
-
-            // TODO: create GET connected route /backoffice
-            this.router.get('/backoffice', this.passport.authenticate('jwt', { session: false, failureRedirect: '/' }), (req, res) => {
-                Controllers.post.readAll()
-                .then( apiResponse => renderSuccessVue('backoffice', '/backoffice', 'GET', res, 'Request succeed', apiResponse))
-                .catch( apiError => renderErrorVue('backoffice', '/backoffice', 'GET', res, 'Request failed', apiError) )
             })
 
             // TODO: create POST post route

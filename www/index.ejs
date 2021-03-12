@@ -2,27 +2,20 @@
 <%- include('statics/header') -%>
 
 <main>
-    <section>
-        <%- include('components/form-register') -%>
-    </section>
+    <h2>Page protégée</h2>
 
-    <section>
-        <%- include('components/form-login') -%>
-    </section>
+    <h3>Ajouter un article</h3>
+    <%- include('components/form-post') -%>
+
+    <h3>Liste des articles</h3>
+        <% for(let item of data.data) { %>
+            <li>
+                <h4><%- item.headline %></h4>
+                <a href="/post/<%- item._id %>">Voir plus</a>
+            </li>
+        <% } %>
+    <ul>
 </main>
 
 <!-- Importer le footer en EJS -->
 <%- include('statics/footer') -%>  
-
-<script>
-    fetch('/auth/me')
-    .then( response => {
-        if(response.ok){ return response.json() }
-    })
-    .then( data => {
-        if( data.err === null ){ window.location = '/backoffice' }
-    })
-    .catch( err => {
-        console.log(err)
-    })
-</script>
