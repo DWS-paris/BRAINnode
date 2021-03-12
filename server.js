@@ -9,6 +9,8 @@ Imports
     const cookieParser = require('cookie-parser'); //=> https://www.npmjs.com/package/cookie-parser
     const passport = require('passport'); //=> https://www.npmjs.com/package/passport
     const path = require('path'); //=> https://www.npmjs.com/package/path
+    const cors = require('cors'); //=> https://www.npmjs.com/package/cors
+    const session = require('express-session'); //=> https://www.npmjs.com/package/express-session
 
     // Services
     const MONGOclass = require('./services/mongo.class');
@@ -25,17 +27,14 @@ class ServerClass{
     }
 
     init(){
-        // Set CORS middleware
-        this.server.use( (req, res, next) => {
-            // Allow actions for specific origins
-            res.header('Access-Control-Allow-Origin', ['*']);
-            res.header('Access-Control-Allow-Credentials', 'true');
-            res.header('Access-Control-Allow-Methods', ['GET', 'PUT', 'POST', 'DELETE', 'POST']);
-            res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-
-            // Enable access to specific origins
-            next();
-        });
+        // Set CORS TODO: set CORS without module cors
+        this.server.use(cors({
+            origin: [
+              'http://localhost:8080'
+            ],
+            credentials: true,
+            exposedHeaders: ['set-cookie']
+        }));
 
         // Set server view engine
         this.server.set( 'view engine', 'ejs' );

@@ -60,7 +60,7 @@ Routes definition
                     // Error: bad fields provided
                     if( !ok ){ return sendFieldsError('/auth/login', 'POST', res, 'Bad fields provided', miss, extra) }
                     else{
-                        Controllers.auth.login(res, req)
+                        Controllers.auth.login(req, res)
                         .then( apiResponse => sendApiSuccessResponse('/auth/login', 'POST', res, 'User logged', apiResponse) )
                         .catch( apiError => sendApiErrorResponse('/auth/login', 'POST', res, 'Request error', apiError) );
                     }
@@ -71,6 +71,7 @@ Routes definition
 
             // TODO: create route to ger all user data
             this.router.get('/me', this.passport.authenticate('jwt', { session: false }), (req, res) => {
+                console.log('me')
                 sendApiSuccessResponse('/auth/login', 'POST', res, 'User logged', req.user)
             })
 
