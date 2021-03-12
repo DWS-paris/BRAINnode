@@ -48,7 +48,7 @@ Routes definition
                     else{
                         Controllers.auth.login(req, res)
                         .then( data => {
-                            return renderSuccessVue('backoffice', '/login', 'POST', res, 'User loged', data, true)
+                            return renderSuccessVue('index', '/login', 'POST', res, 'User loged', data, true)
                         } )
                         .catch( err => {
                             return renderErrorVue('index', '/login', 'POST', res, 'User not loged', err, true);
@@ -61,7 +61,7 @@ Routes definition
             this.router.post('/:endpoint', this.passport.authenticate('jwt', { session: false, failureRedirect: '/' }), (req, res) => {
                 // Check body data
                 if( typeof req.body === 'undefined' || req.body === null || Object.keys(req.body).length === 0 ){ 
-                    return res.render('backoffice', { err: 'No data provided in the reqest body', data: null })
+                    return res.render('index', { err: 'No data provided in the reqest body', data: null })
                 }
                 else{
                     // Check body data
@@ -75,8 +75,8 @@ Routes definition
 
                         // Use the controller to create nex object
                         Controllers[req.params.endpoint].createOne(req)
-                        .then( apiResponse => renderSuccessVue('backoffice', `/${req.params.endpoint}`, 'POST', res, 'Request succeed', { user: req.user, data: apiResponse }))
-                        .catch( apiError => renderErrorVue('backoffice', `/${req.params.endpoint}`, 'POST', res, 'Request failed', apiError) )
+                        .then( apiResponse =>  res.redirect('/') )
+                        .catch( apiError => renderErrorVue('index', `/${req.params.endpoint}`, 'POST', res, 'Request failed', apiError) )
                     }
                 }
             })
